@@ -41,7 +41,7 @@ const ctrlDatos = {
     altaVendedora: async (req, res) => {
         const {tipo, idDirectora, idConsultora, nombre, correo} = req.body;
         console.log(`${tipo} ${idDirectora}`);
-        if(tipo == 'consultora'){
+        if(tipo == 'consultoras'){
             auxAlta = new Consultora(idConsultora, nombre,correo,0,[]);
         } else {
             auxAlta = new Directora(idDirectora,nombre,correo,0,[]);
@@ -80,7 +80,30 @@ const ctrlDatos = {
         const {uid, estado, idCompra} = req.body;
 
         res.json(await conex.cambiaEstado(uid,estado, idCompra));
+    },
+    setEnvio: async(req,res) => {
+        const {compra} = req.body;
+        auxCompra = JSON.parse(compra);
+
+        res.json(await conex.setEnvio(auxCompra));
+    },
+    getEnviosPendientes: async (req, res) => {
+        const {id, tipo} = req.body;
+       
+        res.json(await conex.getEnviosPendientes(id, tipo));
+    },
+    getProducto: async(req, res) => {
+        const{tipo, id, nombre, categoria} = req.body;
+
+        res.json(await conex.getDatosProducto(tipo,id,nombre,categoria));
+    },
+    deleteVentaPendiente: async (req, res) => {
+        const {tipo, idVendedora, idVenta} = req.body;
+
+        res.json(await conex.deleteVentaPendiente(tipo, idVendedora, idVenta));
     }
+
+
 }
 
 module.exports = ctrlDatos;

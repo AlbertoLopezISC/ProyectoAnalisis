@@ -24,7 +24,7 @@ module.exports = class Conexion {
             existencia: producto.existencia
         }
         var updates = {};
-        if(tipo == 'consultora'){
+        if(tipo == 'consultoras'){
             updates['/Analisis/vendedoras/consultoras/' + consultora + '/productoDisponibles/' + producto.categoria + '/' + producto.nombre ] = newData;
         } else {
             updates['/Analisis/vendedoras/directoras/' + consultora + '/productoDisponibles/' + producto.categoria + '/' + producto.nombre ] = newData;
@@ -44,7 +44,7 @@ module.exports = class Conexion {
 
     getDatosVendedora(tipo, vendedora){
         var ref;
-        if(tipo == 'consultora'){
+        if(tipo == 'consultoras'){
             ref = firebase.database().ref('/Analisis/vendedoras/consultoras/'+vendedora)
         } else {
             ref = firebase.database().ref('/Analisis/vendedoras/directoras/'+vendedora)
@@ -63,7 +63,7 @@ module.exports = class Conexion {
 
     altaProducto(tipo, consultora, producto){
         var ref;
-        if(tipo == 'consultora'){
+        if(tipo == 'consultoras'){
             ref = firebase.database().ref('/Analisis/vendedoras/consultoras/'+ consultora + '/productoDisponibles/' + producto.categoria + '/' + producto.nombre)
         } else {
             ref = firebase.database().ref('/Analisis/vendedoras/directoras/'+ consultora + '/productoDisponibles/' + producto.categoria + '/' + producto.nombre)
@@ -84,7 +84,7 @@ module.exports = class Conexion {
     bajaProducto(tipo, consultora, producto){
         var updates = {};
         var newData = null;
-        if(tipo == 'consultora'){
+        if(tipo == 'consultoras'){
             updates['/Analisis/vendedoras/consultoras/'+ consultora + '/productoDisponibles/' + producto.categoria + '/' + producto.nombre ] = newData;
         } else {
             updates['/Analisis/vendedoras/directoras/'+ consultora + '/productoDisponibles/' + producto.categoria + '/' + producto.nombre ] = newData;
@@ -103,7 +103,7 @@ module.exports = class Conexion {
 
     getDatosProducto(tipo, consultora, nombre,categoria){
         var ref;
-        if(tipo == 'consultora'){
+        if(tipo == 'consultoras'){
             ref = firebase.database().ref(`Analisis/vendedoras/consultoras/${consultora}/productoDisponibles/${categoria}/${nombre}`)
         } else {
             ref = firebase.database().ref(`Analisis/vendedoras/directoras/${consultora}/productoDisponibles/${categoria}/${nombre}`)
@@ -111,18 +111,18 @@ module.exports = class Conexion {
         return new Promise((resolve, reject) => {
             ref.once('value')
             .then((data) => {
-                if(data.exists()){
-                    resolve(data.val())
+                if (data.exists()) {
+                    resolve({success: true, data: data.val()});
                 }
             }).catch((err) => {
-                reject(err);
-            })
+                reject({success:false, error: err});
+            });
         });
     }
 
     altaVendedora(tipo, idDirectora, vendedora){
         var ref;
-        if(tipo == 'consultora'){
+        if(tipo == 'consultoras'){
             console.log(vendedora.id);
             ref = firebase.database().ref(`Analisis/vendedoras/consultoras/${vendedora.id}/`);
             return new Promise((resolve, reject) => {
@@ -163,7 +163,7 @@ module.exports = class Conexion {
     bajaVendedora(tipo, idDirectora, idConsultora){
         var updates = {};
         var newData = null;
-        if(tipo == 'consultora'){
+        if(tipo == 'consultoras'){
             updates['/Analisis/vendedoras/consultoras/'+ idConsultora] = newData;
             return new Promise((resolve, reject) => {
                 firebase.database().ref().update(updates).then(() => {
@@ -247,4 +247,89 @@ module.exports = class Conexion {
             });
         });
     }
+
+    setEnvio(compra) {
+        var band = false;
+        return new Promise((resolve, reject) => {
+            for (let i = 0; i < compra.length; i++) {
+                let auxExistencia = 0;
+                if (compra[i].tipo == 'consultoras') {
+                    console.log(`Analisis/vendedoras/consultoras/${compra[i].id}/ventasPendientes`);
+                    firebase.database().ref(`Analisis/vendedoras/consultoras/${compra[i].id}/ventasPendientes/`).push().set({
+                        producto: compra[i].prod,
+                        cantidad: compra[i].cant,
+                        precio: compra[i].precio,
+                        categoria: compra[i].categoria
+                    }).then(() => {
+                        band = true;
+                        console.log(band);
+                    }).catch((err) => {
+                        band = false;
+                        reject({ success: false, error: err });
+                        // break;
+                    });
+                } else {
+                    firebase.database().ref(`Analisis/vendedoras/directoras/${compra[i].id}/ventasPendientes/`).push().set({
+                        producto: compra[i].prod,
+                        cantidad: compra[i].cant,
+                        precio: compra[i].precio,
+                        categoria: compra[i].categoria
+                    }).then(() => {
+                        band = true;
+                        console.log(band);
+
+                    }).catch((err) => {
+                        band = false;
+                        reject({ success: false, error: err });
+                        // break;
+                    });
+                }
+            }
+
+            setInterval(() => {
+                if (band) {
+                    resolve({ success: true });
+                }
+            }, 100);
+        });
+    }
+
+    getEnviosPendientes(id, tipo) {
+        return new Promise((resolve, reject) => {
+            if (tipo == 'consultoras') {
+                firebase.database().ref(`Analisis/vendedoras/consultoras/${id}/ventasPendientes`).once('value')
+                    .then((data) => {
+                        resolve({ success: true, data: data });
+                    }).catch((err) => {
+                        reject({ success: false, error: err });
+                    });
+            } else {
+                firebase.database().ref(`Analisis/vendedoras/directoras/${id}/ventasPendientes`).once('value')
+                    .then((data) => {
+                        resolve({ success: true, data: data });
+                    }).catch((err) => {
+                        reject({ success: false, error: err });
+                    });
+            }
+        })
+    }
+
+    deleteVentaPendiente(tipo, idVendedora, idVenta){
+        var updates = {};
+        var newData = null;
+        if (tipo == 'consultoras') {
+            updates['/Analisis/vendedoras/consultoras/' + idVendedora + '/ventasPendientes/' + idVenta] = newData;
+        } else {
+            updates['/Analisis/vendedoras/directoras/' + idVendedora + '/ventasPendientes/' + idVenta] = newData;
+        }
+        return new Promise((resolve, reject) => {
+            firebase.database().ref().update(updates).then(() => {
+                resolve({ success: true })
+            })
+                .catch((err) => {
+                    reject({ success: false, error: err });
+                });
+        });
+    }
+
 }

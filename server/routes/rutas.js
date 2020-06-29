@@ -25,6 +25,14 @@ router.post('/setCompras', ctrlDatos.setCompras);
 
 router.post('/getCompras', ctrlDatos.getCompras);
 
-router.post('/cambiaEstado', ctrlDatos.cambiaEstado)
+router.post('/cambiaEstado', ctrlDatos.cambiaEstado);
+
+router.post('/setEnvio', ctrlDatos.setEnvio);
+
+router.post('/getEnviosPendientes', ctrlDatos.getEnviosPendientes);
+
+router.post('/getProducto', ctrlDatos.getProducto);
+
+router.post('/deleteVentaPendiente', ctrlDatos.deleteVentaPendiente);
 
 module.exports = router;

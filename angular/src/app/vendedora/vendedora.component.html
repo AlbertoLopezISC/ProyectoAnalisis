@@ -1,0 +1,182 @@
+<table class="table m-4">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Producto</th>
+      <th scope="col">Precio</th>
+      <th scope="col">Cantidad</th>
+      <th scope="col">Aceptar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of this.solicitudes">
+      <th scope="row">{{item.producto}}</th>
+      <td>{{item.precio}}</td>
+      <td>{{item.cantidad}}</td>
+      <td><a href="javascript:void(0)" (click)="modificar(item)" class="nav-link"><i class="fa fa-check" aria-hidden="true"></i></a></td>
+    </tr>
+
+  </tbody>
+</table>
+
+<div>
+  <button class="btn btn-outline-primary m-5" data-toggle="modal" data-target="#miModal2">Alta Producto</button>
+  <button class="btn btn-outline-danger m-5" data-toggle="modal" data-target="#miModal1">Baja Producto</button>
+</div>
+
+<div *ngIf="this.tipo=='directoras'">
+  <button class="btn btn-outline-primary m-5" data-toggle="modal" data-target="#miModal3">Alta Vendedora </button>
+  <button class="btn btn-outline-danger m-5" data-toggle="modal" data-target="#miModal4">Baja Vendedora </button>
+</div>
+
+<div class="modal fade" id="miModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">DATOS:</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Nombre Producto</label>
+            <input type="texto" class="form-control" name="_producto" aria-describedby="emailHelp"
+              [(ngModel)]="_producto">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Precio</label>
+            <input type="number" class="form-control" name="_precio" [(ngModel)]="_precio">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Existencia</label>
+            <input type="number" class="form-control" name="_existencia" [(ngModel)]="_existencia">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Categoria</label>
+            <input type="text" class="form-control" name="_cat" [(ngModel)]="_cat">
+          </div>
+          <button type="button" class="btn btn-primary" (click)="alta()">Guardar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="miModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">DATOS:</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Nombre Producto</label>
+            <input type="texto" class="form-control" name="_producto" aria-describedby="emailHelp"
+              [(ngModel)]="_producto">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Categoria</label>
+            <input type="texto" class="form-control" name="_cat" aria-describedby="emailHelp" [(ngModel)]="_cat">
+          </div>
+          <button type="button" class="btn btn-primary" (click)="baja()">Borrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="miModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">DATOS:</h4>
+      </div>
+      <div class="modal-body">
+        <div class="card  text-white bg-secondary mb-3 mx-auto m-5  w-100" >
+          <div class="card-header">
+            <h1>Altas</h1>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label>Nombre:</label>
+                  <input type="email" class="form-control" placeholder="Nombre" name="_user" [(ngModel)]="_user">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Email:</label>
+                  <input type="email" class="form-control" placeholder="Email" name="_useremail" [(ngModel)]="_useremail">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="inputPassword4">Contraseña designada</label>
+                  <input type="password" class="form-control" name="_pass" placeholder="Password" [(ngModel)]="_pass">
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="inputState">Tipo</label>
+                  <select id="inputState" class="form-control" name="_usertipo" [(ngModel)]="_usertipo">
+                    <option>consultoras</option>
+                    <option>directoras</option>
+                  </select>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-warning" (click)="altausuario()">Registrar</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="miModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">DATOS:</h4>
+      </div>
+      <div class="modal-body">
+        <div  class="card  text-white bg-secondary mb-3 mx-auto m-5  w-100"  >
+          <div class="card-header">
+          <h1>Bajas</h1> 
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label >ID Vendedora:</label>
+                  <input type="email" class="form-control"  placeholder="Nombre" name="_userid" [(ngModel)]="_userid">
+                </div>
+               
+                <div class="form-group col-md-2">
+                  <label for="inputState2">Tipo</label>
+                  <select id="inputState2" class="form-control" name="_usertipo2" [(ngModel)]="_usertipo2">
+                    <option>consultoras</option>
+                    <option>directoras</option>
+                  </select>
+                </div>
+              </div>
+              <button  type="submit" class="btn btn-warning" (click)="bajausuario()">Baja</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

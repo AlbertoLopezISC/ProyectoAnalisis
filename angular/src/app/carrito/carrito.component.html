@@ -1,0 +1,24 @@
+<table class="table m-3">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Producto</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Categoria</th>
+        <th scope="col">Vendedora</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of productos">
+        <th scope="row">{{item.prod}}</th>
+        <td>{{item.precio}}</td>
+        <td>{{item.cant}}</td>
+        <td>{{item.categoria}}</td>
+        <td>{{item.nombre}}</td>
+      </tr>  
+    </tbody>
+  </table>
+  <div class="text-warning float-right m-4"> Total: {{this.total}}</div>
+  <div>
+  <button class="btn btn-outline-warning mx-2 float-right"  (click)="compra()" >Comprar</button>
+</div>

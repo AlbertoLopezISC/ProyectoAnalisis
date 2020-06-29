@@ -1,0 +1,41 @@
+
+<nav aria-label="..." class="m-3">
+  <ul class="pagination  ">
+    <li class="page-item active"><a class="page-link" href="javascript:void(0)" (click)="this.filtro='todas'">Todas</a></li>
+    <li class="page-item "  href="javascript:void(0)" (click)="this.filtro='maquillaje'">
+      <span class="page-link">
+        Maquillaje
+        <span class="sr-only">(current)</span>
+      </span>
+    </li>
+    <li class="page-item"><a class="page-link "  href="javascript:void(0)" (click)="this.filtro='articulos'">Articulos del hogar</a></li>
+    <li class="page-item "  href="javascript:void(0)" (click)="this.filtro='joyeria'">
+      <span class="page-link" >
+        Joyeria
+        <span class="sr-only">(current)</span>
+      </span>
+    </li>
+  </ul>
+</nav>
+
+<div class="container">
+
+<div class="card-columns"  >
+  <div  *ngFor="let item of this.listaprod"> 
+    <div  class="card text-white bg-dark mb-3" *ngIf="this.filtro==item.categoria || this.filtro=='todas'" >
+      <div class="card-body">
+      <h5 class="card-header border-warning text-center" >{{item.prod}}</h5>
+      <ul class="card-text" style="list-style:none">
+          <li>Precio: {{item.precio}}</li>
+          <li>Categoria: {{item.categoria}}</li>
+          <li>Existencia: {{item.existencia}}</li>
+      </ul>
+      <p class="card-text"><small class="text-light">Vendedora: {{item.nombre}}</small></p>
+      <button class="btn btn-outline-warning w-100" (click)="add(item)"><i class="fas fa-plus"></i> </button>
+      <button class="btn btn-outline-warning w-100" (click)="delete(item)"><i class="fas fa-trash"></i></button>
+    </div>
+  </div>
+  </div>
+</div>
+  
+</div>
