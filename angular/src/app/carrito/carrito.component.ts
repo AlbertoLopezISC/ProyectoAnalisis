@@ -8,19 +8,19 @@ import swal from 'sweetalert2';
   styleUrls: ['./carrito.component.css']
 })
 export class CarritoComponent implements OnInit {
-  productos:any[]=[];
-  total: number=0;
+  productos: any[] = [];
+  total: number = 0;
   constructor(public servicioprod: ProductosService) {
-    this.productos=JSON.parse(sessionStorage.getItem('compra'));
+    this.productos = JSON.parse(sessionStorage.getItem('compra'));
     console.log(JSON.stringify(this.productos));
-    for(let i=0; i<this.productos.length; i++){
-      this.total+=this.productos[i].cant * this.productos[i].precio;
-      
+    for (let i = 0; i < this.productos.length; i++) {
+      this.total += this.productos[i].cant * this.productos[i].precio;
+
     }
     console.log(this.total)
-   }
+  }
 
-   compra(){
+  compra() {
     swal.fire({
       title: 'Confirmar',
       text: " ¿Estas seguro de confirmar?",
@@ -30,19 +30,19 @@ export class CarritoComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Aceptar'
     }).then((result) => {
-       this.servicioprod.setenvios(this.productos).subscribe((data: any)=>{
-         if(data.success){
+      this.servicioprod.setenvios(this.productos).subscribe((data: any) => {
+        if (data.success) {
           swal.fire(
             'Compra Exitosa',
             ' ',
             'success'
           )
-          
-         }
-       })
+
+        }
       })
-    
-    
+    })
+
+
   }
 
   ngOnInit(): void {

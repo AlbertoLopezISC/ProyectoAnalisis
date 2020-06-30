@@ -16,8 +16,10 @@ export class LoginComponent implements OnInit {
   psw: any;
   email: string;
   band: number;
-  constructor(private router: Router, private afAuth: AngularFireAuth, private authService: AuthService) {
+  bandera: boolean = false;
 
+  constructor(private router: Router, private afAuth: AngularFireAuth, private authService: AuthService) {
+    
   }
   back2() {
     this.router.navigateByUrl('/principal');

@@ -18,7 +18,11 @@
       </tr>  
     </tbody>
   </table>
-  <div class="text-warning float-right m-4"> Total: {{this.total}}</div>
+  <div class="float-right">
+    <h3 class="text-warning m-4"><strong>Total: {{this.total}}</strong></h3>
+    <button class="btn btn-outline-warning mx-2 float-right"  (click)="compra()" >Comprar</button>
+
+  </div>
   <div>
-  <button class="btn btn-outline-warning mx-2 float-right"  (click)="compra()" >Comprar</button>
 </div>
+

@@ -1,19 +1,18 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#"><img width="50" src="../../assets/icono.jpeg" alt="buyme.png"></a>
     <button class="btn btn-outline-light mx-2" (click)="logout()" *ngIf="this.bandlog" >Logout</button>
     <button class="btn btn-outline-light mx-2"  *ngIf="!this.bandlog" [routerLink]="['login']">Login</button>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
+    <button class="btn btn-outline-light mx-2"  *ngIf="!this.bandlog" [routerLink]="['registro']">Registrarse</button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)" [routerLink]="(['carrito'])"><i class="fas fa-cart-plus " style="width: 20px;"></i>
+          <a class="nav-link" href="javascript:void(0)" *ngIf="this.bandlog" [routerLink]="(['carrito'])"><i class="fas fa-cart-plus fa-2x"></i>
           </a>
         </li>
       </ul>
-      
-      
     </div>
+    <button class="btn btn-outline-light mx-2 float-right"  *ngIf="!this.bandlog && this.bandLogVendedora" (click)="loginVendedora()">Login Vendedora</button>
   </nav>
